@@ -23,13 +23,13 @@ def get_status(user_id):
 def sms_sender(sms_text):
     account_sid = os.getenv('account_sid')
     auth_token = os.getenv('auth_token')
-    phone_number_from = os.getenv('phone_number_from')
-    phone_number_to = os.getenv('phone_number_to')
+    NUMBER_FROM = os.getenv('phone_number_from')
+    NUMBER_TO = os.getenv('phone_number_to')
     client = Client(account_sid, auth_token)
     message = client.messages.create(
         body=sms_text,
-        from_=phone_number_from,
-        to=phone_number_to
+        from_=NUMBER_FROM,
+        to=NUMBER_TO
     )
     print(message.sid)
     return message.sid
