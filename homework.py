@@ -2,19 +2,37 @@ import time
 
 import requests
 from twilio.rest import Client
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 
 def get_status(user_id):
     params = {
-        ...
+        'user_ids': user_id,
+        'fields': 'online',
+        'v': 5.92,
+        'access_token': os.getenv('access_token')
     }
-    ...
-    return ...  # Верните статус пользователя в ВК
+    url = 'https://api.vk.com/method/users.get'
+    r = requests.post(url, params=params)
+    for data in r.json()['response']:
+        return data['online']
 
 
 def sms_sender(sms_text):
-    ...
-    return ...  # Верните sid отправленного сообщения из Twilio
+    account_sid = os.getenv('account_sid')
+    auth_token = os.getenv('auth_token')
+    phone_number_from = os.getenv('phone_number_from')
+    phone_number_to = os.getenv('phone_number_to')
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+        body=sms_text,
+        from_=phone_number_from,
+        to=phone_number_to
+    )
+    print(message.sid)
+    return message.sid
 
 
 if __name__ == "__main__":
