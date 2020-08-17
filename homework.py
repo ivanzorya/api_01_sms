@@ -12,7 +12,7 @@ def get_status(user_id):
         'user_ids': user_id,
         'fields': 'online',
         'v': 5.92,
-        'access_token': os.getenv('access_token')
+        'access_token': os.getenv('VK_TOKEN')
     }
     url = 'https://api.vk.com/method/users.get'
     r = requests.post(url, params=params)
@@ -21,17 +21,16 @@ def get_status(user_id):
 
 
 def sms_sender(sms_text):
-    account_sid = os.getenv('account_sid')
-    auth_token = os.getenv('auth_token')
-    NUMBER_FROM = os.getenv('phone_number_from')
-    NUMBER_TO = os.getenv('phone_number_to')
-    client = Client(account_sid, auth_token)
+    ACCOUNT_SID = os.getenv('ACCOUNT_SID ')
+    AUTH_TOKEN = os.getenv('AUTH_TOKEN')
+    NUMBER_FROM = os.getenv('NUMBER_FROM')
+    NUMBER_TO = os.getenv('NUMBER_TO')
+    client = Client(ACCOUNT_SID, AUTH_TOKEN)
     message = client.messages.create(
         body=sms_text,
         from_=NUMBER_FROM,
         to=NUMBER_TO
     )
-    print(message.sid)
     return message.sid
 
 
