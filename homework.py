@@ -4,20 +4,26 @@ import requests
 from twilio.rest import Client
 from dotenv import load_dotenv
 import os
+import logging
 load_dotenv()
 
 
 def get_status(user_id):
+    VK_API_VERSION = os.getenv('VK_API_VERSION')
+    VK_TOKEN = os.getenv('VK_TOKEN')
     params = {
         'user_ids': user_id,
         'fields': 'online',
-        'v': 5.92,
-        'access_token': os.getenv('VK_TOKEN')
+        'v': VK_API_VERSION,
+        'access_token': VK_TOKEN
     }
-    url = 'https://api.vk.com/method/users.get'
-    r = requests.post(url, params=params)
-    for data in r.json()['response']:
-        return data['online']
+    URL = 'https://api.vk.com/method/users.get'
+    try:
+        request = requests.post(URL, params=params).json()['response']
+        user_status = request[0]['online']
+        return user_status
+    except Exception:
+        logging.exception('Request raised an error')
 
 
 def sms_sender(sms_text):
