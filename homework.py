@@ -31,8 +31,8 @@ def get_status(user_id):
         request = requests.post(url, params=params).json()['response']
         user_status = request[0]['online']
         return user_status
-    except Exception:
-        logging.exception('Request raised an error')
+    except Exception as e:
+        logging.exception(f'Request raised. Error: {e}')
 
 
 def sms_sender(sms_text):
