@@ -1,13 +1,12 @@
-import time
-
-import requests
-from twilio.rest import Client
-from dotenv import load_dotenv
-import os
 import logging
-
+import os
+import requests
+import time
+from dotenv import load_dotenv
+from twilio.rest import Client
 
 load_dotenv()
+
 VK_API_VERSION = os.getenv('VK_API_VERSION')
 VK_TOKEN = os.getenv('VK_TOKEN')
 ACCOUNT_SID = os.getenv('ACCOUNT_SID ')
